@@ -6,13 +6,13 @@ import javax.swing.*;
 
 import java.awt.*;
 
-public class LaminaEj5 extends JPanel {
+public class LaminaEjer5 extends JPanel {
 
     private JComboBox<ProductCategory> comboCategorias;
     private JTextField txtDescuento;
     private JButton btnAplicar;
 
-    public LaminaEj5() {
+    public LaminaEjer5() {
 
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

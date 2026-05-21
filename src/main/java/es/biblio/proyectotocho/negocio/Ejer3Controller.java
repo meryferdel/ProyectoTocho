@@ -1,6 +1,6 @@
-package es.biblio.proyectotocho.negocio.ejercicio3;
+package es.biblio.proyectotocho.negocio;
 
-import es.biblio.proyectotocho.exceptions.DAOException;
+import es.biblio.proyectotocho.Excepciones.DAOException;
 import es.biblio.proyectotocho.persistencia.*;
 import es.biblio.proyectotocho.presentacion.UtilidadesVista;
 import es.biblio.proyectotocho.presentacion.ejercicio3.VentanaEjer3;
