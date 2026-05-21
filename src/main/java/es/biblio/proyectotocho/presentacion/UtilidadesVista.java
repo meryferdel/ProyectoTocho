@@ -49,4 +49,10 @@ public class UtilidadesVista {
                 ventanita,
                 mensaje);
     }
+    
+    public static void mostrarError (JFrame ventanita, String mensaje) {
+        JOptionPane.showMessageDialog(
+                ventanita,
+                mensaje);
+    }
 }
