@@ -13,12 +13,12 @@ public final class ConexionBD {
     /**
      * Usuario de la base de datos.
      */
-    private static final String USUARIO = "root";
+    private static final String USUARIO = "company";
 
     /**
      * Contraseña del usuario de la base de datos.
      */
-    private static final String CONTRASENA = "1234";
+    private static final String CONTRASENA = "company";
 
     /**
      * Constructor privado para evitar la instanciación de la clase.

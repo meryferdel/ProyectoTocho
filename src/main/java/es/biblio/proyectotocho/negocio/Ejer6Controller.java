@@ -74,98 +74,24 @@ public class Ejer6Controller {
                 if (respuesta == JOptionPane.NO_OPTION) {
                     return;
                 } else {
-                    realizarTraspaso(wareId1, wareId2);
-
+                    //realizarTraspaso(wareId1, wareId2);
                     JOptionPane.showMessageDialog(
                             ventana,
                             "Cambios realizados correctamente"
                     );
-
                 }
 
-            } catch (DAOException e) {
-                JOptionPane.showConfirmDialog(
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
                         ventana,
-                        "Error al ");
+                        "Error: " + ex.getMessage()
+                );
             }
         }
 
     }
 
-    private void realizarTraspaso(String idOrigen, String idDestino)
-            throws Exception {
-
-        Connection con = null;
-
-        try {
-
-            con = ConexionBD.getConnection();
-
-            con.setAutoCommit(false);
-
-            List<Inventory> inventarioOrigen
-                    = invenDAO.getInventoryByWarehouse(idOrigen);
-
-            for (Inventory invOrigen : inventarioOrigen) {
-
-                Inventory invDestino
-                        = invenDAO.findById(
-                                invOrigen.getProductId(),
-                                idDestino
-                        );
-
-                // SI NO EXISTE EN DESTINO
-                if (invDestino == null) {
-
-                    Inventory nuevo = new Inventory();
-
-                    nuevo.setProductId(invOrigen.getProductId());
-                    nuevo.setWarehouseId(idDestino);
-                    nuevo.setQuantity(0);
-
-                    invenDAO.insert(nuevo);
-
-                    invDestino = nuevo;
-                }
-
-                // SUMAR CANTIDADES
-                invDestino.setQuantity(
-                        invDestino.getQuantity()
-                        + invOrigen.getQuantity()
-                );
-
-                invenDAO.update(invDestino);
-            }
-
-            // BORRAR INVENTARIO ORIGEN
-            for (Inventory invOrigen : inventarioOrigen) {
-
-                invenDAO.delete(
-                        invOrigen.getProductId(),
-                        idOrigen
-                );
-            }
-
-            // BORRAR ALMACÉN
-            wareDAO.delete(idOrigen);
-
-            con.commit();
-
-        } catch (DAOException e) {
-
-            if (con != null) {
-                con.rollback();
-            }
-
-            throw e;
-
-        } finally {
-
-            if (con != null) {
-                con.close();
-            }
-        }
-    }
+ 
 
     private boolean isNumber(String cadena) {
         try {

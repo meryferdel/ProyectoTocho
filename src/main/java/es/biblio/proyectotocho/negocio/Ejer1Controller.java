@@ -15,31 +15,15 @@ public class Ejer1Controller {
 
     public Ejer1Controller() {
 
-        ventana = new VentanaEj1();
+        ventana = new VentanaEj1(this);
 
         dao = new ProductCategoryDAO();
 
-        ventana.lamina.getBtnCrear().addActionListener(
-                new EventoCrearCategoria()
-        );
+
     }
-
-    private class EventoCrearCategoria implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            String nombreCategoria =
-                    ventana.lamina.getTxtNombre().getText().trim();
-
-            if (nombreCategoria.isEmpty()) {
-
-                UtilidadesVista.mostrarVacio(ventana);
-
-                return;
-            }
-
-            try {
+    
+    public void crearCategoriaProducto(String nombreCategoria) {
+        try {
 
                 // COMPROBAR SI YA EXISTE
                 ProductCategory categoriaExistente =
@@ -73,6 +57,8 @@ public class Ejer1Controller {
 
                 System.out.println(ex.getMessage());
             }
-        }
+    
     }
+
+    
 }
