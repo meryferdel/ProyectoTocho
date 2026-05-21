@@ -80,6 +80,8 @@ public class MainController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            
+            new Ejer5Controller();
 
             JOptionPane.showMessageDialog(
                     ventana,

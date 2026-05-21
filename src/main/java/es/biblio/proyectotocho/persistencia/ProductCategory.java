@@ -19,8 +19,6 @@ public class ProductCategory {
     public ProductCategory(String categoryName) {
         this.categoryName = categoryName;
     }
-    
-    
 
     public int getCategoryId() {
         return categoryId;
@@ -43,4 +41,3 @@ public class ProductCategory {
         return categoryName;
     }
 }
-
