@@ -1,4 +1,4 @@
-package es.biblio.proyectotocho.negocio;
+package es.biblio.proyectotocho.negocio.ejercicio2;
 
 import es.biblio.proyectotocho.exceptions.DAOException;
 import es.biblio.proyectotocho.persistencia.Product;
