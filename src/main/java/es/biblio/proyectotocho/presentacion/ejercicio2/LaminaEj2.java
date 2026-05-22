@@ -1,12 +1,17 @@
 package es.biblio.proyectotocho.presentacion.ejercicio2;
 
+import es.biblio.proyectotocho.negocio.Ejer2Controller;
 import es.biblio.proyectotocho.persistencia.ProductCategory;
+import es.biblio.proyectotocho.presentacion.UtilidadesVista;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class LaminaEj2 extends JPanel {
-
+    private Ejer2Controller controlador;
+    private JFrame ventana;
     private JLabel lblNombre;
     private JLabel lblDescripcion;
     private JLabel lblCoste;
@@ -19,7 +24,9 @@ public class LaminaEj2 extends JPanel {
     private JComboBox<ProductCategory> comboCategorias;
     private JButton btnCrear;
 
-    public LaminaEj2() {
+    public LaminaEj2(JFrame ventanaPadre, Ejer2Controller controlador) {
+        this.controlador = controlador;
+        this.ventana = ventanaPadre;
 
         setBackground(new Color(220, 220, 220));
 
@@ -109,8 +116,60 @@ public class LaminaEj2 extends JPanel {
         gbc.gridwidth = 2;
 
         add(btnCrear, gbc);
+        
+        btnCrear.addActionListener(new ManejadorBotonCrearProducto());
+    }
+    
+    private class ManejadorBotonCrearProducto implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+                String nombre = getTxtNombre().getText().trim();
+
+                String descripcion = getTxtDescripcion().getText().trim();
+
+                String costeTexto = getTxtCoste().getText().trim();
+
+                String precioTexto = getTxtPrecio().getText().trim();
+
+                ProductCategory categoria = (ProductCategory) getComboCategorias().getSelectedItem();
+
+                
+                // VALIDACIONES
+
+                if (nombre.isEmpty() ||
+                        descripcion.isEmpty() ||
+                        costeTexto.isEmpty() ||
+                        precioTexto.isEmpty() ||
+                        categoria == null) {
+
+                    UtilidadesVista.mostrarVacio(ventana);
+
+                    return;
+                }
+
+                if (!isNumber(costeTexto) || !isNumber(precioTexto)) {
+                    UtilidadesVista.mostrarWarningMensaje(ventana, "El coste o el precio no tienen el formato correcto");
+                    return;
+                }
+                double coste = Double.parseDouble(costeTexto);
+
+                double precio = Double.parseDouble(precioTexto);
+                
+                controlador.crearNuevoProducto(nombre, descripcion, coste, precio, categoria.getCategoryId());
+            }
     }
 
+    private boolean isNumber(String cadena) {
+        try {
+            Double.parseDouble(cadena);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    
     public JTextField getTxtNombre() {
         return txtNombre;
     }
