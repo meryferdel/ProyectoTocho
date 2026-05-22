@@ -11,9 +11,7 @@ import java.util.List;
 public class Ejer6Controller {
 
     private VentanaEjer6 ventana;
-
     private WarehouseDAO warehouseDAO;
-
     private InventoryDAO inventoryDAO;
 
     public Ejer6Controller() {
@@ -65,7 +63,7 @@ public class Ejer6Controller {
                     "Error en la operación"
             );
 
-            System.out.println(e.getMessage());
+            Syste  m.out.println(e.getMessage());
         }
     }
 
