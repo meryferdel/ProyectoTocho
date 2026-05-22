@@ -9,7 +9,7 @@ package es.biblio.proyectotocho.persistencia;
  */
 public class Product {
 
-    private int productId;
+    private Integer productId;
     private String productName;
     private String description;
     private double standardCost;
@@ -19,7 +19,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int productId, String productName, String description,
+    public Product(Integer productId, String productName, String description,
                    double standardCost, double listPrice, int categoryId) {
         this.productId = productId;
         this.productName = productName;

@@ -5,7 +5,7 @@ package es.biblio.proyectotocho.persistencia;
  */
 public class Location {
 
-    private int locationId;
+    private Integer locationId;
     private String address;
     private String postalCode;
     private String city;
@@ -15,7 +15,7 @@ public class Location {
     public Location() {
     }
 
-    public Location(int locationId, String address, String postalCode, String city,
+    public Location(Integer locationId, String address, String postalCode, String city,
                     String state, String countryId) {
         this.locationId = locationId;
         this.address = address;

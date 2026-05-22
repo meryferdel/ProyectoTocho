@@ -16,8 +16,8 @@ public class Customers implements Comparable {
     private String name, address, website;
     private double creditLimit;
 
-    public Customers(Integer customer_id, String name, String address, String website, double credit_limit) {
-        this.customerId = customer_id;
+    public Customers(Integer customerId, String name, String address, String website, double credit_limit) {
+        this.customerId = customerId;
         this.name = name;
         this.address = address;
         this.website = website;

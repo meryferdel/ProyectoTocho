@@ -5,14 +5,14 @@ package es.biblio.proyectotocho.persistencia;
  */
 public class Warehouse {
 
-    private int warehouseId;
+    private Integer warehouseId;
     private String warehouseName;
     private int locationId;
 
     public Warehouse() {
     }
 
-    public Warehouse(int warehouseId, String warehouseName, int locationId) {
+    public Warehouse(Integer warehouseId, String warehouseName, int locationId) {
         this.warehouseId = warehouseId;
         this.warehouseName = warehouseName;
         this.locationId = locationId;

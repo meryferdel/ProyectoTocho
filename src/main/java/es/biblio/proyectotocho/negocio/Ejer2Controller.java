@@ -9,8 +9,6 @@ import es.biblio.proyectotocho.presentacion.UtilidadesVista;
 import es.biblio.proyectotocho.presentacion.ejercicio2.VentanaEj2;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class Ejer2Controller {
@@ -21,24 +19,20 @@ public class Ejer2Controller {
 
     public Ejer2Controller() {
 
-        ventana = new VentanaEj2();
+        ventana = new VentanaEj2(this);
 
         productDAO = new ProductDAO();
         categoryDAO = new ProductCategoryDAO();
 
         cargarCategorias();
-
-        ventana.lamina.getBtnCrear().addActionListener(
-                new EventoCrearProducto()
-        );
     }
 
     private void cargarCategorias() {
 
         try {
 
-            List<ProductCategory> categorias =
-                    categoryDAO.findAll();
+            List<ProductCategory> categorias
+                    = categoryDAO.findAll();
 
             for (ProductCategory categoria : categorias) {
 
@@ -55,6 +49,31 @@ public class Ejer2Controller {
         }
     }
 
+    public void crearNuevoProducto(String nombre, String descripcion, double coste, double precio, int categoryId) {
+        try {
+            // CREAR PRODUCTO
+
+            Product producto = new Product(null, nombre, descripcion, coste, precio, categoryId);
+
+            // INSERTAR
+            productDAO.insert(producto);
+
+            ventana.limpiarCamposTexto();
+            UtilidadesVista.mostrarExitoMensaje(ventana, "Producto creado correctamente");
+
+
+        } catch (DAOException ex) {
+
+            JOptionPane.showMessageDialog(
+                    ventana,
+                    "Error al crear el producto"
+            );
+
+            System.out.println(ex.getMessage());
+        }
+
+    }
+/*
     private class EventoCrearProducto implements ActionListener {
 
         @Override
@@ -62,49 +81,46 @@ public class Ejer2Controller {
 
             try {
 
-                String nombre =
-                        ventana.lamina.getTxtNombre()
+                String nombre
+                        = ventana.lamina.getTxtNombre()
                                 .getText().trim();
 
-                String descripcion =
-                        ventana.lamina.getTxtDescripcion()
+                String descripcion
+                        = ventana.lamina.getTxtDescripcion()
                                 .getText().trim();
 
-                String costeTexto =
-                        ventana.lamina.getTxtCoste()
+                String costeTexto
+                        = ventana.lamina.getTxtCoste()
                                 .getText().trim();
 
-                String precioTexto =
-                        ventana.lamina.getTxtPrecio()
+                String precioTexto
+                        = ventana.lamina.getTxtPrecio()
                                 .getText().trim();
 
-                ProductCategory categoria =
-                        (ProductCategory)
-                                ventana.lamina
-                                        .getComboCategorias()
-                                        .getSelectedItem();
+                ProductCategory categoria
+                        = (ProductCategory) ventana.lamina
+                                .getComboCategorias()
+                                .getSelectedItem();
 
                 // VALIDACIONES
-
-                if (nombre.isEmpty() ||
-                        descripcion.isEmpty() ||
-                        costeTexto.isEmpty() ||
-                        precioTexto.isEmpty() ||
-                        categoria == null) {
+                if (nombre.isEmpty()
+                        || descripcion.isEmpty()
+                        || costeTexto.isEmpty()
+                        || precioTexto.isEmpty()
+                        || categoria == null) {
 
                     UtilidadesVista.mostrarVacio(ventana);
 
                     return;
                 }
 
-                double coste =
-                        Double.parseDouble(costeTexto);
+                double coste
+                        = Double.parseDouble(costeTexto);
 
-                double precio =
-                        Double.parseDouble(precioTexto);
+                double precio
+                        = Double.parseDouble(precioTexto);
 
                 // CREAR PRODUCTO
-
                 Product producto = new Product();
 
                 producto.setProductName(nombre);
@@ -116,13 +132,11 @@ public class Ejer2Controller {
                 );
 
                 // INSERTAR
-
                 productDAO.insert(producto);
 
                 UtilidadesVista.mostrarExitoMensaje(ventana, "Producto creado correctamente");
 
                 // LIMPIAR CAMPOS
-
                 ventana.lamina.getTxtNombre().setText("");
                 ventana.lamina.getTxtDescripcion().setText("");
                 ventana.lamina.getTxtCoste().setText("");
@@ -146,4 +160,5 @@ public class Ejer2Controller {
             }
         }
     }
+*/
 }
