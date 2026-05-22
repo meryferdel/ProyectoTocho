@@ -48,7 +48,7 @@ public class MainController {
         public void actionPerformed(ActionEvent e) {
 
             new Ejer2Controller();
-
+            
         }
     }
 
