@@ -51,30 +51,37 @@ public class Ejer5Controller {
             return;
         }
 
+        // Validamos que el texto no sea nulo o vacío.
         if (texto == null || texto.isEmpty()) {
             JOptionPane.showMessageDialog(ventana, "Debe escribir un porcentaje");
             return;
         }
         
+        // Si lo que se introduce en el JTextField no es un número va a saltar un aviso en la ventana para informar al usuario.
         if (!isNumber(texto)) {
-            JOptionPane.showMessageDialog(ventana, "Porcentaje invalido");
+            JOptionPane.showMessageDialog(ventana, "Porcentaje invalido, debe ser en formato numérico");
             return;
         }
 
+        // Introducimos el texto a la variable porcentaje de tipo doble.
         double porcentaje = Double.parseDouble(texto);
-        // Validamos que el descuento esté comprendido entre 1 y 100
+        
+        // Validamos que ese porcentaje esté comprendido entre 1 y 100.
         if (porcentaje < 1 || porcentaje > 100) {
             JOptionPane.showMessageDialog(ventana, "El descuento debe estar comprendido entre 1 y 100");
             return;
         }
 
         try {
+            // Usando el método de aplicarDescuentoCategoria de la tabla productDAO, 
+            // le pasamos por los parámetros de entrada el ID de la categoría seleccionada y el porcentaje que haya introducido el usuario.
             productDAO.aplicarDescuentoCategoria(categoria.getCategoryId(), porcentaje);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(ventana, "Error al aplicar descuento a los productos de la categoría seleccionada");
         }
     }
 
+    // Método que se va a usar para saber si el texto que introduce por el JtextField es número o es una cadena de texto.
     private boolean isNumber(String cadena) {
         try {
             double numero = Double.parseDouble(cadena);

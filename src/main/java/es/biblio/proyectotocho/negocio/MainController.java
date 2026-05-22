@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package es.biblio.proyectotocho.negocio;
 
 import es.biblio.proyectotocho.negocio.ejercicio2.Ejer2Controller;
@@ -9,10 +5,6 @@ import es.biblio.proyectotocho.presentacion.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/**
- *
- * @author Alberto
- */
 public class MainController {
 
     private VentanaBienvenida ventana;
@@ -82,11 +74,6 @@ public class MainController {
         public void actionPerformed(ActionEvent e) {
             
             new Ejer5Controller();
-
-            JOptionPane.showMessageDialog(
-                    ventana,
-                    "Abrir ventana Aplicar descuento"
-            );
 
         }
     }

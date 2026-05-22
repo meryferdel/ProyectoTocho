@@ -1,18 +1,24 @@
 package es.biblio.proyectotocho.presentacion.ejercicio5;
 
+import es.biblio.proyectotocho.negocio.Ejer5Controller;
 import es.biblio.proyectotocho.persistencia.ProductCategory;
 
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class LaminaEjer5 extends JPanel {
 
     private JComboBox<ProductCategory> comboCategorias;
     private JTextField txtDescuento;
     private JButton btnAplicar;
+    private Ejer5Controller controlador; // Objeto que gestiona la lógica con el Modelo Vista Controlador (MVC).
 
-    public LaminaEjer5() {
+    public LaminaEjer5(Ejer5Controller c) {
+        
+        controlador = c;
 
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -55,5 +61,20 @@ public class LaminaEjer5 extends JPanel {
 
     public JButton getBtnAplicar() {
         return btnAplicar;
+    }
+
+    // Se declara una clase interna privada que implementa de ActionListener:
+    private class ManejadorActionEvent implements ActionListener {
+
+        // Método que se ejecuta cuando se dispara una acción (clic en el botón de Aplicar Descuento):
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            // Si el código fuente del evento es opcionAbrir, opcionGuardar u opcionSalir,
+            // se llama a cada método correspondiente del controlador:
+            if (e.getSource() == getBtnAplicar()) {
+                controlador.
+            }
+        }
     }
 }
