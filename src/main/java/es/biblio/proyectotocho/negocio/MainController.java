@@ -1,6 +1,5 @@
 package es.biblio.proyectotocho.negocio;
 
-import es.biblio.proyectotocho.negocio.ejercicio2.Ejer2Controller;
 import es.biblio.proyectotocho.presentacion.*;
 import java.awt.event.*;
 import javax.swing.*;
