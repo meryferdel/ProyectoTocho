@@ -1,75 +1,95 @@
+// ==========================
+// LÁMINA EJERCICIO 6
+// ==========================
+
 package es.biblio.proyectotocho.presentacion.ejercicio6;
 
+import es.biblio.proyectotocho.negocio.Ejer6Controller;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+public class LaminaEjer6 extends JPanel {
 
-/**
- *
- * @author Usuario25
- */
-public class LaminaEjer6 extends JPanel{
-    
     private JTextField txtCerrado;
     private JTextField txtTraspaso;
     private JButton btnCerrarTraspasar;
+    private JFrame ventana;
+    private Ejer6Controller controlador;
 
-    public LaminaEjer6() {
-        
+    public LaminaEjer6(
+            JFrame ventanaPadre,
+            Ejer6Controller controlador
+    ) {
+
+        this.ventana = ventanaPadre;
+
+        this.controlador = controlador;
+
         setBackground(new Color(220, 220, 220));
 
         setLayout(new GridBagLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints gbc =
+                new GridBagConstraints();
 
-        gbc.insets = new Insets(10, 10, 10, 10);
-        
-        //ID DE ALMACÉN DE CIERRE
-        JLabel lblCierre = new JLabel("ID del almacén de cierre:");
-        
+        gbc.insets =
+                new Insets(10, 10, 10, 10);
+
+        // ALMACEN DE ORIGEN
+        JLabel lblCierre =
+                new JLabel(
+                        "ID almacén a cerrar:"
+                );
+
         gbc.gridx = 0;
         gbc.gridy = 0;
 
         add(lblCierre, gbc);
 
-        txtCerrado = new JTextField();
+        txtCerrado = new JTextField(15);
 
         gbc.gridx = 1;
 
         add(txtCerrado, gbc);
-        
-        //ID DE ALMACÉN DE TRASPASO
-        JLabel lblTraspaso = new JLabel("ID del almacén a traspasar:");
+
+        // ALMACEN DE DESTINO
+        JLabel lblTraspaso =
+                new JLabel(
+                        "ID almacén destino:"
+                );
 
         gbc.gridx = 0;
         gbc.gridy = 1;
 
         add(lblTraspaso, gbc);
 
-        txtTraspaso = new JTextField();
+        txtTraspaso = new JTextField(15);
 
         gbc.gridx = 1;
 
         add(txtTraspaso, gbc);
-        
-        //BOTÓN CERRAR Y TRASPASAR
-        btnCerrarTraspasar = new JButton("Cerrar y traspasar almacén");
 
-        btnCerrarTraspasar.setBackground(new Color(245, 245, 245));
+        // BOTON DE CIERRE Y TRASPASO
+        btnCerrarTraspasar =
+                new JButton(
+                        "Cerrar y traspasar inventario"
+                );
+
+        btnCerrarTraspasar.setBackground(
+                new Color(245, 245, 245)
+        );
 
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 2;
         gbc.gridwidth = 2;
 
         add(btnCerrarTraspasar, gbc);
-         
-        
+
+        btnCerrarTraspasar.addActionListener(
+                new ManejadorTraspaso()
+        );
     }
 
     public JTextField getTxtCerrado() {
@@ -83,14 +103,75 @@ public class LaminaEjer6 extends JPanel{
     public JButton getBtnCerrarTraspasar() {
         return btnCerrarTraspasar;
     }
-    
-    private class manejadorTraspasoCierre implements ActionListener() {
+
+    private class ManejadorTraspaso
+            implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+            String origen =
+                    txtCerrado.getText().trim();
+
+            String destino =
+                    txtTraspaso.getText().trim();
+
+            if (origen.isEmpty()
+                    || destino.isEmpty()) {
+
+                JOptionPane.showMessageDialog(
+                        ventana,
+                        "Debes rellenar ambos campos"
+                );
+
+                return;
+            }
+
+            if (!isNumber(origen)
+                    || !isNumber(destino)) {
+
+                JOptionPane.showMessageDialog(
+                        ventana,
+                        "Los IDs deben ser numéricos"
+                );
+
+                return;
+            }
+
+            if (origen.equals(destino)) {
+
+                JOptionPane.showMessageDialog(
+                        ventana,
+                        "Los almacenes deben ser distintos"
+                );
+
+                return;
+            }
+
+            // LLAMAR CONTROLADOR
+
+            controlador.cerrarYTraspasar(
+                    Integer.parseInt(origen),
+                    Integer.parseInt(destino)
+            );
         }
-        
     }
-    
+
+    // ==========================
+    // VALIDACIÓN NUMÉRICA
+    // ==========================
+
+    private boolean isNumber(String cadena) {
+
+        try {
+
+            Integer.parseInt(cadena);
+
+            return true;
+
+        } catch (NumberFormatException e) {
+
+            return false;
+        }
+    }
 }

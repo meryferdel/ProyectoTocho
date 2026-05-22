@@ -1,106 +1,129 @@
 package es.biblio.proyectotocho.negocio;
 
 import es.biblio.proyectotocho.exceptions.DAOException;
-import es.biblio.proyectotocho.persistencia.ConexionBD;
-import es.biblio.proyectotocho.persistencia.Inventory;
-import es.biblio.proyectotocho.persistencia.InventoryDAO;
-import es.biblio.proyectotocho.persistencia.Warehouse;
-import es.biblio.proyectotocho.persistencia.WarehouseDAO;
-import es.biblio.proyectotocho.presentacion.UtilidadesVista;
+import es.biblio.proyectotocho.persistencia.*;
 import es.biblio.proyectotocho.presentacion.ejercicio6.VentanaEjer6;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.util.*;
+import java.sql.SQLException;
+import java.util.List;
 
 public class Ejer6Controller {
 
-    public VentanaEjer6 ventana;
-    private WarehouseDAO wareDAO;
-    private InventoryDAO invenDAO;
-    private Warehouse almacen;
+    private VentanaEjer6 ventana;
+
+    private WarehouseDAO warehouseDAO;
+
+    private InventoryDAO inventoryDAO;
 
     public Ejer6Controller() {
-        wareDAO = new WarehouseDAO();
-        invenDAO = new InventoryDAO();
-        ventana = new VentanaEjer6();
 
-        ventana.getLamina()
-                .getBtnCerrarTraspasar()
-                .addActionListener(new EventoTxt());
-
+        warehouseDAO = new WarehouseDAO();
+        inventoryDAO = new InventoryDAO();
+        ventana = new VentanaEjer6(this);
     }
 
-    private class EventoTxt implements ActionListener {
+    public void cerrarYTraspasar(int origen, int destino) throws Exception {
+        try {
+            Warehouse almacenOrigen =
+                    warehouseDAO.findById(origen);
+            Warehouse almacenDestino =
+                    warehouseDAO.findById(destino);
+            if (almacenOrigen == null
+                    || almacenDestino == null) {
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                String wareId1
-                        = ventana.lamina.getTxtCerrado()
-                                .getText().trim();
-                String wareId2
-                        = ventana.lamina.getTxtTraspaso()
-                                .getText().trim();
-                if (wareId1.isEmpty() || wareId2.isEmpty()) {
-                    UtilidadesVista.mostrarVacio(ventana);
-                    return;
-                }
-
-                if (!isNumber(wareId2) || !isNumber(wareId1)) {
-                    UtilidadesVista.mostrarError(ventana, "El ID tiene que ser un numero");
-                    return;
-                }
-
-                ArrayList<Integer> almacenes = new ArrayList<>();
-
-                for (int i = 0; i < almacenes.size(); i++) {
-                    almacenes.add(almacen.getWarehouseId());
-                }
-
-                if ((!almacenes.contains(wareId1) || !almacenes.contains(wareId2)) && wareId1 != wareId2) {
-                    UtilidadesVista.mostrarError(ventana, "No se encuentra almacén");
-                    return;
-                }
-
-                int respuesta = JOptionPane.showConfirmDialog(
-                        ventana,
-                        "Esta operación no se podrá deshacer, ¿estás seguro?",
-                        "Confirmación",
-                        JOptionPane.YES_NO_OPTION
-                );
-
-                if (respuesta == JOptionPane.NO_OPTION) {
-                    return;
-                } else {
-                    //realizarTraspaso(wareId1, wareId2);
-                    JOptionPane.showMessageDialog(
-                            ventana,
-                            "Cambios realizados correctamente"
-                    );
-                }
-
-            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(
                         ventana,
-                        "Error: " + ex.getMessage()
+                        "Algún almacén no existe"
+                );
+                return;
+            }
+
+            int opcion =
+                    JOptionPane.showConfirmDialog(
+                            ventana,
+                            "Esta operación no se podrá deshacer, ¿estás seguro?",
+                            "Confirmación",
+                            JOptionPane.YES_NO_OPTION
+                    );
+
+            if (opcion != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            realizarTransaccion(origen, destino);
+
+            JOptionPane.showMessageDialog(
+                    ventana,
+                    "Operación realizada correctamente"
+            );
+
+        } catch (DAOException e) {
+
+            JOptionPane.showMessageDialog(
+                    ventana,
+                    "Error en la operación"
+            );
+
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void realizarTransaccion(int origen, int destino) throws Exception {
+        Connection con = null;
+        try {
+
+            con = ConexionBD.getConnection();
+            con.setAutoCommit(false);
+
+            List<Inventory> inventarioOrigen =
+                    inventoryDAO.getInventoryByWarehouse(origen);
+
+            for (Inventory invOrigen : inventarioOrigen) {
+                Inventory invDestino =
+                        inventoryDAO.findById(invOrigen.getProductId(),destino);
+
+                if (invDestino == null) {
+                    Inventory nuevo = new Inventory();
+                    nuevo.setProductId(invOrigen.getProductId());
+                    nuevo.setWarehouseId(destino);
+                    nuevo.setQuantity(0);
+                    inventoryDAO.insert(nuevo);
+                    invDestino = nuevo;
+                }
+
+                invDestino.setQuantity(
+                        invDestino.getQuantity()
+                                + invOrigen.getQuantity()
+                );
+
+                inventoryDAO.update(invDestino);
+                inventoryDAO.delete(
+                        invOrigen.getProductId(),
+                        origen
                 );
             }
+
+            warehouseDAO.delete(origen);
+            con.commit();
+
+        } catch (DAOException e) {
+            if (con != null) {
+                con.rollback();
+            }
+            throw e;
+
+        } finally {
+            if (con != null) {
+                try {
+                    con.setAutoCommit(true);
+                    con.close();
+                } catch (SQLException ex) {
+                    System.out.println(
+                            ex.getMessage()
+                    );
+                }
+            }
         }
-
     }
-
- 
-
-    private boolean isNumber(String cadena) {
-        try {
-            Integer.parseInt(cadena);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-
-    }
-
 }

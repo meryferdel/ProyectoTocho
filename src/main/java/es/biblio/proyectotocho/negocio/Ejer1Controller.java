@@ -6,8 +6,6 @@ import es.biblio.proyectotocho.persistencia.ProductCategoryDAO;
 import es.biblio.proyectotocho.presentacion.UtilidadesVista;
 import es.biblio.proyectotocho.presentacion.ejercicio1.VentanaEj1;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Ejer1Controller {
     private VentanaEj1 ventana;
@@ -24,15 +22,11 @@ public class Ejer1Controller {
     
     public void crearCategoriaProducto(String nombreCategoria) {
         try {
-
                 // COMPROBAR SI YA EXISTE
                 ProductCategory categoriaExistente =
                         dao.findByName(nombreCategoria);
-
                 if (categoriaExistente != null) {
-
                     UtilidadesVista.mostrarWarning(ventana);
-
                     return;
                 }
 
