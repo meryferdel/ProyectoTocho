@@ -48,7 +48,6 @@ public class MainController {
         public void actionPerformed(ActionEvent e) {
 
             new Ejer2Controller();
-            
         }
     }
 
@@ -58,7 +57,7 @@ public class MainController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            new Ejer2Controller();
+            new Ejer3Controller();
 
         }
     }
@@ -69,7 +68,7 @@ public class MainController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            
+
 
         }
     }
@@ -94,10 +93,7 @@ public class MainController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            JOptionPane.showMessageDialog(
-                    ventana,
-                    "Abrir ventana Traspaso y cierre"
-            );
+            new Ejer6Controller();
 
         }
     }

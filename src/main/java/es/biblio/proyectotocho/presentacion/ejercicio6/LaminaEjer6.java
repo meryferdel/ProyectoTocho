@@ -4,6 +4,7 @@
 
 package es.biblio.proyectotocho.presentacion.ejercicio6;
 
+import es.biblio.proyectotocho.exceptions.DAOException;
 import es.biblio.proyectotocho.negocio.Ejer6Controller;
 import javax.swing.*;
 import java.awt.*;
@@ -148,19 +149,23 @@ public class LaminaEjer6 extends JPanel {
                 return;
             }
 
-            // LLAMAR CONTROLADOR
+            try {
+                controlador.cerrarYTraspasar(
+                        Integer.parseInt(origen),
+                        Integer.parseInt(destino)
+                );
+            } catch (Exception ex) {
 
-            controlador.cerrarYTraspasar(
-                    Integer.parseInt(origen),
-                    Integer.parseInt(destino)
+            JOptionPane.showMessageDialog(
+                    ventana,
+                    "Error en la operación"
             );
+
+            System.out.println(ex.getMessage());
+        }
         }
     }
-
-    // ==========================
-    // VALIDACIÓN NUMÉRICA
-    // ==========================
-
+    
     private boolean isNumber(String cadena) {
 
         try {
