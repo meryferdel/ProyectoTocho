@@ -16,7 +16,7 @@ public class Ejer5Controller {
 
     public Ejer5Controller() {
 
-        ventana = new VentanaEjer5();
+        ventana = new VentanaEjer5(this);
         productCategoryDAO = new ProductCategoryDAO();
         productDAO = new ProductDAO();
 
@@ -36,7 +36,7 @@ public class Ejer5Controller {
         }
     }
 
-    private void aplicarDescuentoCategoria() {
+    public void aplicarDescuentoCategoria() {
 
         //La categoría seleccionada, la guardamos en la variable categoría de tipo ProductCategory.
         ProductCategory categoria = (ProductCategory) ventana.lamina.getComboCategorias().getSelectedItem();

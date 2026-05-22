@@ -2,9 +2,7 @@ package es.biblio.proyectotocho.presentacion.ejercicio5;
 
 import es.biblio.proyectotocho.negocio.Ejer5Controller;
 import es.biblio.proyectotocho.persistencia.ProductCategory;
-
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,11 +12,12 @@ public class LaminaEjer5 extends JPanel {
     private JComboBox<ProductCategory> comboCategorias;
     private JTextField txtDescuento;
     private JButton btnAplicar;
+    private JFrame ventana;
     private Ejer5Controller controlador; // Objeto que gestiona la lógica con el Modelo Vista Controlador (MVC).
 
-    public LaminaEjer5(Ejer5Controller c) {
-        
-        controlador = c;
+    public LaminaEjer5(JFrame ventanaPadre, Ejer5Controller controlador) {
+        this.controlador = controlador;
+        this.ventana = ventanaPadre;
 
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -70,10 +69,8 @@ public class LaminaEjer5 extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            // Si el código fuente del evento es opcionAbrir, opcionGuardar u opcionSalir,
-            // se llama a cada método correspondiente del controlador:
             if (e.getSource() == getBtnAplicar()) {
-                controlador.
+                controlador.aplicarDescuentoCategoria();
             }
         }
     }
