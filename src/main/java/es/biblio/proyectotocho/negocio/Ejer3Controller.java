@@ -21,7 +21,7 @@ public class Ejer3Controller {
 
     public Ejer3Controller() {
 
-        ventana = new VentanaEjer3();
+        ventana = new VentanaEjer3(this);
 
         regionDAO = new RegionDAO();
         countryDAO = new CountryDAO();

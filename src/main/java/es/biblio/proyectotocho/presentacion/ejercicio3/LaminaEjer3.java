@@ -1,5 +1,6 @@
 package es.biblio.proyectotocho.presentacion.ejercicio3;
 
+import es.biblio.proyectotocho.negocio.Ejer3Controller;
 import es.biblio.proyectotocho.persistencia.Country;
 import es.biblio.proyectotocho.persistencia.Location;
 import es.biblio.proyectotocho.persistencia.Region;
@@ -12,13 +13,17 @@ public class LaminaEjer3 extends JPanel {
     private JComboBox<Region> comboRegiones;
     private JComboBox<Country> comboPaises;
     private JComboBox<Location> comboUbicaciones;
+    private Ejer3Controller controlador;
+    private JFrame ventana;
 
     private JTextField txtNombre;
 
     private JButton btnCrear;
 
-    public LaminaEjer3() {
-
+    public LaminaEjer3(JFrame ventanaPadre, Ejer3Controller controlador) {
+        this.ventana = ventanaPadre;
+        this.controlador = controlador;
+        
         setBackground(new Color(220, 220, 220));
 
         setLayout(new GridBagLayout());
