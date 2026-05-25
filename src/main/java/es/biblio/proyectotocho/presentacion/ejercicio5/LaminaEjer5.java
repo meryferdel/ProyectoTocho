@@ -48,6 +48,8 @@ public class LaminaEjer5 extends JPanel {
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         add(btnAplicar, gbc);
+        
+        btnAplicar.addActionListener(new ManejadorActionEvent()); // Le añadimos la acción oyente para que llame a la clase privada ManejadorActionEvent y su método.
     }
 
     public JComboBox<ProductCategory> getComboCategorias() {
