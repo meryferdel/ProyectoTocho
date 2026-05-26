@@ -1,6 +1,6 @@
 package es.biblio.proyectotocho.persistencia;
 
-import es.biblio.proyectotocho.exceptions.DAOException;
+import es.biblio.proyectotocho.Excepciones.DAOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
