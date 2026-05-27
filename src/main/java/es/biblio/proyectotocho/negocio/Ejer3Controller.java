@@ -1,13 +1,12 @@
 package es.biblio.proyectotocho.negocio;
 
-import es.biblio.proyectotocho.Excepciones.DAOException;
+import es.biblio.proyectotocho.exceptions.DAOException;
 import es.biblio.proyectotocho.persistencia.*;
 import es.biblio.proyectotocho.presentacion.UtilidadesVista;
+import es.biblio.proyectotocho.presentacion.ejercicio3.LaminaEjer3;
 import es.biblio.proyectotocho.presentacion.ejercicio3.VentanaEjer3;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class Ejer3Controller {
@@ -20,27 +19,17 @@ public class Ejer3Controller {
     private WarehouseDAO warehouseDAO;
 
     public Ejer3Controller() {
-
-        ventana = new VentanaEjer3(this);
-
         regionDAO = new RegionDAO();
         countryDAO = new CountryDAO();
         locationDAO = new LocationDAO();
         warehouseDAO = new WarehouseDAO();
-
+        
+        ventana = new VentanaEjer3(this);
+        
         cargarRegiones();
-
-        ventana.getLamina().getComboRegiones()
-                .addActionListener(new EventoComboRegiones());
-
-        ventana.getLamina().getComboPaises()
-                .addActionListener(new EventoComboPaises());
-
-        ventana.getLamina().getBtnCrear()
-                .addActionListener(new EventoCrearAlmacen());
     }
 
-    private void cargarRegiones() {
+    public void cargarRegiones() {
 
         try {
 
@@ -62,177 +51,84 @@ public class Ejer3Controller {
         }
     }
 
-    // ==========================
-    // EVENTO REGIONES
-    // ==========================
+    public void cargarPaises(Region region) {
 
-    private class EventoComboRegiones implements ActionListener {
+        try {
+            java.util.List<Country> paises
+                    = countryDAO.findByRegion(
+                            region.getRegionId());
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            try {
-
+            for (Country country : paises) {
                 ventana.getLamina()
                         .getComboPaises()
-                        .removeAllItems();
-
-                Region region =
-                        (Region) ventana.getLamina()
-                                .getComboRegiones()
-                                .getSelectedItem();
-
-                if (region != null) {
-
-                    List<Country> paises =
-                            countryDAO.findByRegion(
-                                    region.getRegionId()
-                            );
-
-                    for (Country country : paises) {
-
-                        ventana.getLamina()
-                                .getComboPaises()
-                                .addItem(country);
-                    }
-
-                    ventana.getLamina()
-                            .getComboPaises()
-                            .setEnabled(true);
-                }
-
-            } catch (DAOException ex) {
-
-                JOptionPane.showMessageDialog(
-                        ventana,
-                        "Error al cargar países"
-                );
+                        .addItem(country);
             }
+
+            ventana.getLamina()
+                    .getComboPaises()
+                    .setEnabled(true);
+
+        } catch (DAOException e) {
+
+            JOptionPane.showMessageDialog(
+                    ventana,
+                    "Error al cargar países"
+            );
         }
     }
 
-    // ==========================
-    // EVENTO PAÍSES
-    // ==========================
+    public void cargarUbicaciones(Country pais) {
 
-    private class EventoComboPaises implements ActionListener {
+        try {
+            java.util.List<Location> locations
+                    = locationDAO.findByCountry(
+                            pais.getCountryId()
+                    );
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            try {
-
-                ventana.getLamina()
-                        .getComboUbicaciones()
-                        .removeAllItems();
-
-                Country country =
-                        (Country) ventana.getLamina()
-                                .getComboPaises()
-                                .getSelectedItem();
-
-                if (country != null) {
-
-                    List<Location> locations =
-                            locationDAO.findByCountry(
-                                    country.getCountryId()
-                            );
-
-                    for (Location location : locations) {
-
-                        ventana.getLamina()
-                                .getComboUbicaciones()
-                                .addItem(location);
-                    }
-
-                    ventana.getLamina()
-                            .getComboUbicaciones()
-                            .setEnabled(true);
-                }
-
-            } catch (DAOException ex) {
-
-                JOptionPane.showMessageDialog(
-                        ventana,
-                        "Error al cargar ubicaciones"
-                );
+            for (Location location : locations) {
+                ventana.getLamina().getComboUbicaciones().addItem(location);
             }
+
+            ventana.getLamina().getComboUbicaciones().setEnabled(true);
+
+        } catch (DAOException e) {
+
+            JOptionPane.showMessageDialog(
+                    ventana,
+                    "Error al cargar ubicaciones"
+            );
         }
     }
 
-    // ==========================
-    // CREAR ALMACÉN
-    // ==========================
+    public void crearAlmacen(String nombre, Location ubicacion) {
 
-    private class EventoCrearAlmacen implements ActionListener {
+        try {
+            // CREAR ALMACÉN
+            Warehouse warehouse = new Warehouse();
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
+            warehouse.setWarehouseName(nombre);
 
-            try {
+            warehouse.setLocationId(
+                    ubicacion.getLocationId()
+            );
 
-                String nombre =
-                        ventana.getLamina()
-                                .getTxtNombre()
-                                .getText()
-                                .trim();
+            warehouseDAO.insert(warehouse);
 
-                Region region =
-                        (Region) ventana.getLamina()
-                                .getComboRegiones()
-                                .getSelectedItem();
+            UtilidadesVista.mostrarExitoMensaje(ventana, "Almacen creado correctamente");
 
-                Country country =
-                        (Country) ventana.getLamina()
-                                .getComboPaises()
-                                .getSelectedItem();
+            // LIMPIAR
+            ventana.getLamina().getTxtNombre().setText("");
 
-                Location location =
-                        (Location) ventana.getLamina()
-                                .getComboUbicaciones()
-                                .getSelectedItem();
+        } catch (DAOException ex) {
 
-                // VALIDACIONES
+            JOptionPane.showMessageDialog(
+                    ventana,
+                    "Error al crear almacén"
+            );
 
-                if (nombre.isEmpty()
-                        || region == null
-                        || country == null
-                        || location == null) {
-
-                    UtilidadesVista.mostrarVacioMensaje(ventana, "No puede haber un campo vacío");
-
-                    return;
-                }
-
-                // CREAR ALMACÉN
-
-                Warehouse warehouse = new Warehouse();
-
-                warehouse.setWarehouseName(nombre);
-
-                warehouse.setLocationId(
-                        location.getLocationId()
-                );
-
-                warehouseDAO.insert(warehouse);
-
-                UtilidadesVista.mostrarExitoMensaje(ventana, "Almacen creado correctamente");
-
-                // LIMPIAR
-
-                ventana.getLamina()
-                        .getTxtNombre()
-                        .setText("");
-
-            } catch (DAOException ex) {
-
-                JOptionPane.showMessageDialog(
-                        ventana,
-                        "Error al crear almacén"
-                );
-
-                System.out.println(ex.getMessage());
-            }
+            System.out.println(ex.getMessage());
         }
+
     }
+
 }
