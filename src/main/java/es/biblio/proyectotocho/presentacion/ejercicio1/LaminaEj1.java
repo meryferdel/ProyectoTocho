@@ -1,8 +1,6 @@
 package es.biblio.proyectotocho.presentacion.ejercicio1;
 
-import es.biblio.proyectotocho.exceptions.DAOException;
 import es.biblio.proyectotocho.negocio.Ejer1Controller;
-import es.biblio.proyectotocho.persistencia.ProductCategory;
 import es.biblio.proyectotocho.presentacion.UtilidadesVista;
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,6 @@
 package es.biblio.proyectotocho.negocio;
 
-import es.biblio.proyectotocho.Excepciones.DAOException;
+import es.biblio.proyectotocho.exceptions.DAOException;
 import es.biblio.proyectotocho.persistencia.Product;
 import es.biblio.proyectotocho.persistencia.ProductCategory;
 import es.biblio.proyectotocho.persistencia.ProductCategoryDAO;
@@ -73,92 +73,4 @@ public class Ejer2Controller {
         }
 
     }
-/*
-    private class EventoCrearProducto implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            try {
-
-                String nombre
-                        = ventana.lamina.getTxtNombre()
-                                .getText().trim();
-
-                String descripcion
-                        = ventana.lamina.getTxtDescripcion()
-                                .getText().trim();
-
-                String costeTexto
-                        = ventana.lamina.getTxtCoste()
-                                .getText().trim();
-
-                String precioTexto
-                        = ventana.lamina.getTxtPrecio()
-                                .getText().trim();
-
-                ProductCategory categoria
-                        = (ProductCategory) ventana.lamina
-                                .getComboCategorias()
-                                .getSelectedItem();
-
-                // VALIDACIONES
-                if (nombre.isEmpty()
-                        || descripcion.isEmpty()
-                        || costeTexto.isEmpty()
-                        || precioTexto.isEmpty()
-                        || categoria == null) {
-
-                    UtilidadesVista.mostrarVacio(ventana);
-
-                    return;
-                }
-
-                double coste
-                        = Double.parseDouble(costeTexto);
-
-                double precio
-                        = Double.parseDouble(precioTexto);
-
-                // CREAR PRODUCTO
-                Product producto = new Product();
-
-                producto.setProductName(nombre);
-                producto.setDescription(descripcion);
-                producto.setStandardCost(coste);
-                producto.setListPrice(precio);
-                producto.setCategoryId(
-                        categoria.getCategoryId()
-                );
-
-                // INSERTAR
-                productDAO.insert(producto);
-
-                UtilidadesVista.mostrarExitoMensaje(ventana, "Producto creado correctamente");
-
-                // LIMPIAR CAMPOS
-                ventana.lamina.getTxtNombre().setText("");
-                ventana.lamina.getTxtDescripcion().setText("");
-                ventana.lamina.getTxtCoste().setText("");
-                ventana.lamina.getTxtPrecio().setText("");
-
-            } catch (NumberFormatException ex) {
-
-                JOptionPane.showMessageDialog(
-                        ventana,
-                        "Coste y precio deben ser numéricos"
-                );
-
-            } catch (DAOException ex) {
-
-                JOptionPane.showMessageDialog(
-                        ventana,
-                        "Error al crear el producto"
-                );
-
-                System.out.println(ex.getMessage());
-            }
-        }
-    }
-*/
 }
