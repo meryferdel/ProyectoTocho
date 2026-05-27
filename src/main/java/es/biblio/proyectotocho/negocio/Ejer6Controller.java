@@ -11,13 +11,10 @@ import java.util.List;
 public class Ejer6Controller {
 
     private VentanaEjer6 ventana;
-
     private WarehouseDAO warehouseDAO;
-
     private InventoryDAO inventoryDAO;
 
     public Ejer6Controller() {
-
         warehouseDAO = new WarehouseDAO();
         inventoryDAO = new InventoryDAO();
         ventana = new VentanaEjer6(this);
@@ -25,13 +22,9 @@ public class Ejer6Controller {
 
     public void cerrarYTraspasar(int origen, int destino) throws Exception {
         try {
-            Warehouse almacenOrigen =
-                    warehouseDAO.findById(origen);
-            Warehouse almacenDestino =
-                    warehouseDAO.findById(destino);
-            if (almacenOrigen == null
-                    || almacenDestino == null) {
-
+            Warehouse almacenOrigen = warehouseDAO.findById(origen);
+            Warehouse almacenDestino = warehouseDAO.findById(destino);
+            if (almacenOrigen == null || almacenDestino == null) {
                 JOptionPane.showMessageDialog(
                         ventana,
                         "Algún almacén no existe"
@@ -39,8 +32,7 @@ public class Ejer6Controller {
                 return;
             }
 
-            int opcion =
-                    JOptionPane.showConfirmDialog(
+            int opcion = JOptionPane.showConfirmDialog(
                             ventana,
                             "Esta operación no se podrá deshacer, ¿estás seguro?",
                             "Confirmación",
@@ -76,12 +68,10 @@ public class Ejer6Controller {
             con = ConexionBD.getConnection();
             con.setAutoCommit(false);
 
-            List<Inventory> inventarioOrigen =
-                    inventoryDAO.getInventoryByWarehouse(origen);
+            List<Inventory> inventarioOrigen = inventoryDAO.getInventoryByWarehouse(origen);
 
             for (Inventory invOrigen : inventarioOrigen) {
-                Inventory invDestino =
-                        inventoryDAO.findById(invOrigen.getProductId(),destino);
+                Inventory invDestino = inventoryDAO.findById(invOrigen.getProductId(),destino);
 
                 if (invDestino == null) {
                     Inventory nuevo = new Inventory();
@@ -92,16 +82,9 @@ public class Ejer6Controller {
                     invDestino = nuevo;
                 }
 
-                invDestino.setQuantity(
-                        invDestino.getQuantity()
-                                + invOrigen.getQuantity()
-                );
-
+                invDestino.setQuantity(invDestino.getQuantity() + invOrigen.getQuantity());
                 inventoryDAO.update(invDestino);
-                inventoryDAO.delete(
-                        invOrigen.getProductId(),
-                        origen
-                );
+                inventoryDAO.delete(invOrigen.getProductId(),origen);
             }
 
             warehouseDAO.delete(origen);
@@ -119,9 +102,7 @@ public class Ejer6Controller {
                     con.setAutoCommit(true);
                     con.close();
                 } catch (SQLException ex) {
-                    System.out.println(
-                            ex.getMessage()
-                    );
+                    System.out.println(ex.getMessage());
                 }
             }
         }
