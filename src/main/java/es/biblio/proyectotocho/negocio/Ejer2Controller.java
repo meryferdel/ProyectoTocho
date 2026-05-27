@@ -1,6 +1,6 @@
 package es.biblio.proyectotocho.negocio;
 
-import es.biblio.proyectotocho.exceptions.DAOException;
+import es.biblio.proyectotocho.Excepciones.DAOException;
 import es.biblio.proyectotocho.persistencia.Product;
 import es.biblio.proyectotocho.persistencia.ProductCategory;
 import es.biblio.proyectotocho.persistencia.ProductCategoryDAO;
