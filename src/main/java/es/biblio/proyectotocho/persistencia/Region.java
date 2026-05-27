@@ -57,7 +57,7 @@ public class Region implements Comparable{
 
     @Override
     public String toString() {
-        return "Regions{" + "regionId=" + regionId + ", regionName=" + regionName + '}';
+        return regionName;
     }
 
     public void setRegionId(Integer regionId) {

@@ -1,6 +1,6 @@
 package es.biblio.proyectotocho.persistencia;
 
-import es.biblio.proyectotocho.exceptions.DAOException;
+import es.biblio.proyectotocho.Excepciones.DAOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,33 +9,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DAO para la entidad Product.
- * Implementa las operaciones CRUD sobre la tabla products.
+ * DAO para la entidad Product. Implementa las operaciones CRUD sobre la tabla
+ * products.
  */
 public class ProductDAO {
 
-    private static final String SQL_INSERT =
-            "INSERT INTO products (product_name, description, standard_cost, list_price, category_id) " +
-            "VALUES (?, ?, ?, ?, ?)";
+    private static final String SQL_INSERT
+            = "INSERT INTO products (product_name, description, standard_cost, list_price, category_id) "
+            + "VALUES (?, ?, ?, ?, ?)";
 
-    private static final String SQL_UPDATE =
-            "UPDATE products SET product_name = ?, description = ?, standard_cost = ?, " +
-            "list_price = ?, category_id = ? WHERE product_id = ?";
+    private static final String SQL_UPDATE
+            = "UPDATE products SET product_name = ?, description = ?, standard_cost = ?, "
+            + "list_price = ?, category_id = ? WHERE product_id = ?";
 
-    private static final String SQL_DELETE =
-            "DELETE FROM products WHERE product_id = ?";
+    private static final String SQL_DELETE
+            = "DELETE FROM products WHERE product_id = ?";
 
-    private static final String SQL_FIND_BY_ID =
-            "SELECT product_id, product_name, description, standard_cost, list_price, category_id " +
-            "FROM products WHERE product_id = ?";
+    private static final String SQL_FIND_BY_ID
+            = "SELECT product_id, product_name, description, standard_cost, list_price, category_id "
+            + "FROM products WHERE product_id = ?";
 
-    private static final String SQL_FIND_ALL =
-            "SELECT product_id, product_name, description, standard_cost, list_price, category_id " +
-            "FROM products";
+    private static final String SQL_FIND_ALL
+            = "SELECT product_id, product_name, description, standard_cost, list_price, category_id "
+            + "FROM products";
 
     public void insert(Product product) throws DAOException {
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_INSERT)) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_INSERT)) {
 
             ps.setString(1, product.getProductName());
             ps.setString(2, product.getDescription());
@@ -51,8 +50,7 @@ public class ProductDAO {
     }
 
     public void update(Product product) throws DAOException {
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_UPDATE)) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_UPDATE)) {
 
             ps.setString(1, product.getProductName());
             ps.setString(2, product.getDescription());
@@ -69,8 +67,7 @@ public class ProductDAO {
     }
 
     public void delete(int productId) throws DAOException {
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_DELETE)) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_DELETE)) {
 
             ps.setInt(1, productId);
             ps.executeUpdate();
@@ -84,8 +81,7 @@ public class ProductDAO {
     public Product findById(int productId) throws DAOException {
         Product product = null;
 
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_FIND_BY_ID)) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_FIND_BY_ID)) {
 
             ps.setInt(1, productId);
 
@@ -112,9 +108,7 @@ public class ProductDAO {
     public List<Product> findAll() throws DAOException {
         List<Product> products = new ArrayList<>();
 
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_FIND_ALL);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_FIND_ALL); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Product product = new Product();
@@ -134,5 +128,32 @@ public class ProductDAO {
 
         return products;
     }
-}
 
+    public int aplicarDescuentoCategoria(int categoryId, double descuento) throws DAOException {
+
+        String sql = "UPDATE PRODUCTS SET LIST_PRICE = LIST_PRICE * (1 - ?/100) WHERE CATEGORY_ID = ?";
+
+        try (Connection conn = ConexionBD.getConnection()) {
+
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                ps.setDouble(1, descuento);
+                ps.setInt(2, categoryId);
+
+                int filas = ps.executeUpdate();
+
+                conn.commit();
+                return filas;
+                
+            } catch (SQLException e) {
+                conn.rollback();
+                throw new DAOException("Error en la transacción de descuento", e);
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Error al aplicar descuento", e);
+        }
+    }
+}
