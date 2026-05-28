@@ -28,7 +28,7 @@ public class CountryDAO {
 
     private static final String SQL_FIND_ALL
             = "SELECT country_id, country_name, region_id FROM countries";
-    
+
     private static final String SQL_FIND_BY_REGION
             = "SELECT country_id, country_name, region_id FROM countries WHERE region_id = ?";
 

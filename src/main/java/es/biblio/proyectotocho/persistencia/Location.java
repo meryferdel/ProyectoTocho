@@ -16,7 +16,7 @@ public class Location {
     }
 
     public Location(Integer locationId, String address, String postalCode, String city,
-                    String state, String countryId) {
+            String state, String countryId) {
         this.locationId = locationId;
         this.address = address;
         this.postalCode = postalCode;
@@ -78,4 +78,3 @@ public class Location {
         return address;
     }
 }
-

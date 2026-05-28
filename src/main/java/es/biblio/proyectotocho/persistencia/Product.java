@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package es.biblio.proyectotocho.persistencia;
 
 /**
@@ -20,7 +16,7 @@ public class Product {
     }
 
     public Product(Integer productId, String productName, String description,
-                   double standardCost, double listPrice, int categoryId) {
+            double standardCost, double listPrice, int categoryId) {
         this.productId = productId;
         this.productName = productName;
         this.description = description;
@@ -79,14 +75,13 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "productId=" + productId +
-                ", productName='" + productName + '\'' +
-                ", description='" + description + '\'' +
-                ", standardCost=" + standardCost +
-                ", listPrice=" + listPrice +
-                ", categoryId=" + categoryId +
-                '}';
+        return "Product{"
+                + "productId=" + productId
+                + ", productName='" + productName + '\''
+                + ", description='" + description + '\''
+                + ", standardCost=" + standardCost
+                + ", listPrice=" + listPrice
+                + ", categoryId=" + categoryId
+                + '}';
     }
 }
-

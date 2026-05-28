@@ -9,29 +9,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DAO para la entidad Warehouse.
- * Implementa las operaciones CRUD sobre la tabla warehouses.
+ * DAO para la entidad Warehouse. Implementa las operaciones CRUD sobre la tabla
+ * warehouses.
  */
 public class WarehouseDAO {
 
-    private static final String SQL_INSERT =
-            "INSERT INTO warehouses (warehouse_name, location_id) VALUES (?, ?)";
+    private static final String SQL_INSERT
+            = "INSERT INTO warehouses (warehouse_name, location_id) VALUES (?, ?)";
 
-    private static final String SQL_UPDATE =
-            "UPDATE warehouses SET warehouse_name = ?, location_id = ? WHERE warehouse_id = ?";
+    private static final String SQL_UPDATE
+            = "UPDATE warehouses SET warehouse_name = ?, location_id = ? WHERE warehouse_id = ?";
 
-    private static final String SQL_DELETE =
-            "DELETE FROM warehouses WHERE warehouse_id = ?";
+    private static final String SQL_DELETE
+            = "DELETE FROM warehouses WHERE warehouse_id = ?";
 
-    private static final String SQL_FIND_BY_ID =
-            "SELECT warehouse_id, warehouse_name, location_id FROM warehouses WHERE warehouse_id = ?";
+    private static final String SQL_FIND_BY_ID
+            = "SELECT warehouse_id, warehouse_name, location_id FROM warehouses WHERE warehouse_id = ?";
 
-    private static final String SQL_FIND_ALL =
-            "SELECT warehouse_id, warehouse_name, location_id FROM warehouses";
+    private static final String SQL_FIND_ALL
+            = "SELECT warehouse_id, warehouse_name, location_id FROM warehouses";
 
     public void insert(Warehouse warehouse) throws DAOException {
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_INSERT)) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_INSERT)) {
 
             ps.setString(1, warehouse.getWarehouseName());
             ps.setInt(2, warehouse.getLocationId());
@@ -44,8 +43,7 @@ public class WarehouseDAO {
     }
 
     public void update(Warehouse warehouse) throws DAOException {
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_UPDATE)) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_UPDATE)) {
 
             ps.setString(1, warehouse.getWarehouseName());
             ps.setInt(2, warehouse.getLocationId());
@@ -59,8 +57,7 @@ public class WarehouseDAO {
     }
 
     public void delete(int warehouseId) throws DAOException {
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_DELETE)) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_DELETE)) {
 
             ps.setInt(1, warehouseId);
             ps.executeUpdate();
@@ -74,8 +71,7 @@ public class WarehouseDAO {
     public Warehouse findById(int warehouseId) throws DAOException {
         Warehouse warehouse = null;
 
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_FIND_BY_ID)) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_FIND_BY_ID)) {
 
             ps.setInt(1, warehouseId);
 
@@ -99,9 +95,7 @@ public class WarehouseDAO {
     public List<Warehouse> findAll() throws DAOException {
         List<Warehouse> warehouses = new ArrayList<>();
 
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_FIND_ALL);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_FIND_ALL); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Warehouse warehouse = new Warehouse();
@@ -119,4 +113,3 @@ public class WarehouseDAO {
         return warehouses;
     }
 }
-

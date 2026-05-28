@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package es.biblio.proyectotocho.persistencia;
 
 import java.util.Objects;
@@ -10,7 +6,8 @@ import java.util.Objects;
  *
  * @author Alberto
  */
-public class Region implements Comparable{
+public class Region implements Comparable {
+
     private Integer regionId;
     private String regionName;
 
@@ -67,7 +64,4 @@ public class Region implements Comparable{
     public void setRegionName(String regionName) {
         this.regionName = regionName;
     }
-    
-    
-    
 }

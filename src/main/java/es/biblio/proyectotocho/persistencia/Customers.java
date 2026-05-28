@@ -96,7 +96,4 @@ public class Customers implements Comparable {
     public void setCreditLimit(double creditLimit) {
         this.creditLimit = creditLimit;
     }
-    
-    
-
 }

@@ -9,29 +9,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DAO para la entidad Region.
- * Implementa las operaciones CRUD sobre la tabla regions.
+ * DAO para la entidad Region. Implementa las operaciones CRUD sobre la tabla
+ * regions.
  */
 public class RegionDAO {
 
-    private static final String SQL_INSERT =
-            "INSERT INTO regions (region_name) VALUES (?)";
+    private static final String SQL_INSERT
+            = "INSERT INTO regions (region_name) VALUES (?)";
 
-    private static final String SQL_UPDATE =
-            "UPDATE regions SET region_name = ? WHERE region_id = ?";
+    private static final String SQL_UPDATE
+            = "UPDATE regions SET region_name = ? WHERE region_id = ?";
 
-    private static final String SQL_DELETE =
-            "DELETE FROM regions WHERE region_id = ?";
+    private static final String SQL_DELETE
+            = "DELETE FROM regions WHERE region_id = ?";
 
-    private static final String SQL_FIND_BY_ID =
-            "SELECT region_id, region_name FROM regions WHERE region_id = ?";
+    private static final String SQL_FIND_BY_ID
+            = "SELECT region_id, region_name FROM regions WHERE region_id = ?";
 
-    private static final String SQL_FIND_ALL =
-            "SELECT region_id, region_name FROM regions";
+    private static final String SQL_FIND_ALL
+            = "SELECT region_id, region_name FROM regions";
 
     public void insert(Region region) throws DAOException {
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_INSERT)) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_INSERT)) {
 
             ps.setString(1, region.getRegionName());
             ps.executeUpdate();
@@ -43,8 +42,7 @@ public class RegionDAO {
     }
 
     public void update(Region region) throws DAOException {
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_UPDATE)) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_UPDATE)) {
 
             ps.setString(1, region.getRegionName());
             ps.setInt(2, region.getRegionId());
@@ -57,8 +55,7 @@ public class RegionDAO {
     }
 
     public void delete(int regionId) throws DAOException {
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_DELETE)) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_DELETE)) {
 
             ps.setInt(1, regionId);
             ps.executeUpdate();
@@ -72,8 +69,7 @@ public class RegionDAO {
     public Region findById(int regionId) throws DAOException {
         Region region = null;
 
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_FIND_BY_ID)) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_FIND_BY_ID)) {
 
             ps.setInt(1, regionId);
 
@@ -96,9 +92,7 @@ public class RegionDAO {
     public List<Region> findAll() throws DAOException {
         List<Region> regiones = new ArrayList<>();
 
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(SQL_FIND_ALL);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = ConexionBD.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL_FIND_ALL); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Region region = new Region(0, "");
@@ -115,5 +109,3 @@ public class RegionDAO {
         return regiones;
     }
 }
-
-

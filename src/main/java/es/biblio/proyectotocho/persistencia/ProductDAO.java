@@ -146,7 +146,7 @@ public class ProductDAO {
 
                 conn.commit();
                 return filas;
-                
+
             } catch (SQLException e) {
                 conn.rollback();
                 throw new DAOException("Error en la transacción de descuento", e);

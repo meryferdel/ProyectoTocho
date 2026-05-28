@@ -125,34 +125,33 @@ public class InventoryDAO {
     }
 
     public List<Inventory> getInventoryByWarehouse(int warehouseId)
-        throws DAOException {
+            throws DAOException {
 
-    List<Inventory> inventoryList = new ArrayList<>();
+        List<Inventory> inventoryList = new ArrayList<>();
 
-    try (Connection con = ConexionBD.getConnection();
-         PreparedStatement ps = con.prepareStatement(SQL_GET_INVENTORY)) {
+        try (Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(SQL_GET_INVENTORY)) {
 
-        ps.setInt(1, warehouseId);
+            ps.setInt(1, warehouseId);
 
-        ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-        while (rs.next()) {
+            while (rs.next()) {
 
-            Inventory inventory = new Inventory();
+                Inventory inventory = new Inventory();
 
-            inventory.setProductId(rs.getInt("product_id"));
-            inventory.setWarehouseId(rs.getInt("warehouse_id"));
-            inventory.setQuantity(rs.getInt("quantity"));
-            inventory.setProductName(rs.getString("product_name")); // ← AQUÍ SE RELLENA
+                inventory.setProductId(rs.getInt("product_id"));
+                inventory.setWarehouseId(rs.getInt("warehouse_id"));
+                inventory.setQuantity(rs.getInt("quantity"));
+                inventory.setProductName(rs.getString("product_name")); // ← AQUÍ SE RELLENA
 
-            inventoryList.add(inventory);
+                inventoryList.add(inventory);
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Error getting inventory", e);
         }
 
-    } catch (SQLException e) {
-        throw new DAOException("Error getting inventory", e);
+        return inventoryList;
     }
-
-    return inventoryList;
-}
 
 }

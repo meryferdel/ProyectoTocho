@@ -1,8 +1,8 @@
 package es.biblio.proyectotocho.persistencia;
 
 /**
- * Entidad que representa la tabla inventories.
- * Clave primaria compuesta: (productId, warehouseId)
+ * Entidad que representa la tabla inventories. Clave primaria compuesta:
+ * (productId, warehouseId)
  */
 public class Inventory {
 
@@ -51,8 +51,4 @@ public class Inventory {
     public void setProductName(String productName) {
         this.productName = productName;
     }
-    
-    
-    
-    
 }
