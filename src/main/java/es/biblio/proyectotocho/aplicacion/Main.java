@@ -1,4 +1,4 @@
-package aplicacion;
+package es.biblio.proyectotocho.aplicacion;
 
 import es.biblio.proyectotocho.negocio.MainController;
 
