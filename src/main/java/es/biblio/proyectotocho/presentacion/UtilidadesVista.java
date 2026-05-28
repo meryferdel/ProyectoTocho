@@ -1,50 +1,67 @@
+// Paquete de la capa de presentación del proyecto.
 package es.biblio.proyectotocho.presentacion;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+// Clase de utilidades para la vista.
+// Contiene métodos estáticos que muestran distintos tipos de mensajes al usuario mediante cuadros de diálogo (JOptionPane). 
+// Se utiliza para centralizar la forma en la que se muestran avisos, errores y mensajes de éxito.
 public class UtilidadesVista {
-    
-    
-    public static void mostrarWarning (JFrame ventanita) {
+
+    // Muestra un mensaje de advertencia genérico indicando que el elemento ya existe.
+    public static void mostrarWarning(JFrame ventanita) {
         JOptionPane.showMessageDialog(
                 ventanita,
-                "Ya existe");
+                "Ya existe"
+        );
     }
-    
-    public static void mostrarVacio (JFrame ventanita) {
+
+    // Muestra un mensaje indicando que un campo obligatorio está vacío.
+    public static void mostrarVacio(JFrame ventanita) {
         JOptionPane.showMessageDialog(
                 ventanita,
-                "No puede estar vacio");
+                "No puede estar vacio"
+        );
     }
-    
-    public static void mostrarExito (JFrame ventanita) {
+
+    // Muestra un mensaje indicando que la operación se ha realizado correctamente.
+    public static void mostrarExito(JFrame ventanita) {
         JOptionPane.showMessageDialog(
                 ventanita,
-                "Añadido correctamente");
+                "Añadido correctamente"
+        );
     }
-    
-    public static void mostrarWarningMensaje (JFrame ventanita, String mensaje) {
+
+    // Muestra un mensaje de advertencia personalizado.
+    public static void mostrarWarningMensaje(JFrame ventanita, String mensaje) {
         JOptionPane.showMessageDialog(
                 ventanita,
-                mensaje);
+                mensaje
+        );
     }
-    
-    public static void mostrarVacioMensaje (JFrame ventanita, String mensaje) {
+
+    // Muestra un mensaje indicando que un campo obligatorio está vacío, con texto personalizado.
+    public static void mostrarVacioMensaje(JFrame ventanita, String mensaje) {
         JOptionPane.showMessageDialog(
                 ventanita,
-                mensaje);
+                mensaje
+        );
     }
-    
-    public static void mostrarExitoMensaje (JFrame ventanita, String mensaje) {
+
+    // Muestra un mensaje de éxito personalizado.
+    public static void mostrarExitoMensaje(JFrame ventanita, String mensaje) {
         JOptionPane.showMessageDialog(
                 ventanita,
-                mensaje);
+                mensaje
+        );
     }
-    
-    public static void mostrarError (JFrame ventanita, String mensaje) {
+
+    // Muestra un mensaje de error personalizado.
+    public static void mostrarError(JFrame ventanita, String mensaje) {
         JOptionPane.showMessageDialog(
                 ventanita,
-                mensaje);
+                mensaje
+        );
     }
 }
