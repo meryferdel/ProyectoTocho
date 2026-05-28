@@ -14,7 +14,7 @@ public class Ejer1Controller {
     private VentanaEj1 ventana; // Propiedad referente a la ventana gráfica asociada a este controlador.
     private ProductCategoryDAO dao; // Propiedad referente al Objeto DAO para trabajar con categorías de producto en la base de datos.
 
-    // Contructor del controlador:
+    // Contructor del controlador del ejercicio 1:
     public Ejer1Controller() {
         // Crea la ventana del ejercicio 1 y le pasa este controlador,
         // para que la vista pueda llamar a métodos del controlador (por ejemplo, al pulsar un botón).
@@ -49,7 +49,6 @@ public class Ejer1Controller {
             ventana.lamina.getTxtNombre().setText("");
 
         } catch (DAOException ex) { // Si ocurre algún error en la capa de acceso a datos (DAO), se captura la excepción y se informa al usuario.
-
             // Muestra un cuadro de diálogo con un mensaje de error.
             JOptionPane.showMessageDialog(
                     ventana,
