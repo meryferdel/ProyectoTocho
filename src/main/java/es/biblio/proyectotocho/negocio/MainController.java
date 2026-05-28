@@ -1,19 +1,27 @@
+// Paquete de la capa de negocio (lógica) del proyecto.
 package es.biblio.proyectotocho.negocio;
 
 import es.biblio.proyectotocho.presentacion.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+// Controlador principal del proyecto. 
+// Se encarga de gestionar la ventana de bienvenida y de abrir cada uno de los ejercicios
+// cuando el usuario pulsa el botón correspondiente.
 public class MainController {
 
-    private VentanaBienvenida ventana;
+    private VentanaBienvenida ventana; // Propiedad referente a la ventana principal del programa.
 
+    // Constructor del controlador principal:
     public MainController() {
 
-        ventana = new VentanaBienvenida();
+        ventana = new VentanaBienvenida(); // Crea la ventana de bienvenida.
 
+        // Obtiene el array de botones que contiene la lámina de la ventana.
         JButton[] botones = ventana.lamina.getBotones();
 
+        // Asocia un ActionListener distinto a cada botón, de forma que cada uno abra el ejercicio correspondiente 
+        // con su controlador particular de cada ejercicio.
         botones[0].addActionListener(new EventoBoton1());
         botones[1].addActionListener(new EventoBoton2());
         botones[2].addActionListener(new EventoBoton3());
@@ -86,5 +94,4 @@ public class MainController {
 
         }
     }
-
 }

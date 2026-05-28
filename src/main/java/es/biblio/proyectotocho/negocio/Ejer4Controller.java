@@ -64,13 +64,13 @@ public class Ejer4Controller {
             // Obtiene la lista de productos del almacén seleccionado.
             List<Inventory> inventario = inventoryDAO.getInventoryByWarehouse(warehouseId);
 
-            // 
+            // Obtiene el modelo de la tabla para poder modificar su contenido.
             DefaultTableModel modelo = ventana.getLamina().getModelo();
 
-            // 
+            // Limpia la tabla antes de mostrar los nuevos resultados.
             modelo.setRowCount(0);
 
-            // SIN RESULTADOS
+            // Si no hay productos en el almacén, se avisa al usuario y se sale del método.
             if (inventario.isEmpty()) {
                 JOptionPane.showMessageDialog(
                         ventana,
@@ -79,28 +79,31 @@ public class Ejer4Controller {
                 return;
             }
 
-            // RELLENAR TABLA
+            // Recorre la lista de inventario y añade cada producto como una fila en la tabla.
             for (Inventory inv : inventario) {
                 Object[] fila = {
                     inv.getProductId(),
                     inv.getProductName(),
                     inv.getQuantity()
                 };
+                // Añade la fila creada en la tabla modelo.
                 modelo.addRow(fila);
             }
 
+            // Muestra un mensaje indicando que el inventario se ha cargado correctamente.
             JOptionPane.showMessageDialog(
                     ventana,
                     "Inventario cargado correctamente"
             );
 
         } catch (DAOException e) {
-
+            // Si ocurre un error al consultar el inventario, se muestra un mensaje al usuario.
             JOptionPane.showMessageDialog(
                     ventana,
                     "Error al buscar inventario"
             );
 
+            // Se imprime el error en consola para facilitar la depuración.
             System.out.println(e.getMessage());
         }
     }

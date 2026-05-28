@@ -1,3 +1,4 @@
+// Paquete de la capa de negocio (lógica) del proyecto.
 package es.biblio.proyectotocho.negocio;
 
 import es.biblio.proyectotocho.exceptions.DAOException;
@@ -8,15 +9,21 @@ import es.biblio.proyectotocho.presentacion.ejercicio5.VentanaEjer5;
 import java.util.List;
 import javax.swing.JOptionPane;
 
+// Controlador del ejercicio 5, encargado de coordinar la lógica entre la vista (VentanaEjer5)
+// y los DAOs (ProductCategoryDAO y ProductDAO) que acceden a la base de datos.
 public class Ejer5Controller {
     
-    private VentanaEjer5 ventana;
-    private ProductCategoryDAO productCategoryDAO;
-    private ProductDAO productDAO;
+    private VentanaEjer5 ventana; // Propiedad referente a la ventana gráfica asociada a este ejercicio.
+    private ProductCategoryDAO productCategoryDAO; // DAO para trabajar con las categorías de producto.
+    private ProductDAO productDAO; // DAO para trabajar con los productos.
     
+    // Constructor del controlador del ejercicio 5:
     public Ejer5Controller() {
-        
+        // Crea la ventana del ejercicio 5 y le pasa este controlador,
+        // para que la vista pueda llamar a sus métodos (por ejemplo, al pulsar un botón).
         ventana = new VentanaEjer5(this);
+        
+        // Inicializa los DAOs necesarios para acceder a la base de datos.
         productCategoryDAO = new ProductCategoryDAO();
         productDAO = new ProductDAO();
 
@@ -24,18 +31,25 @@ public class Ejer5Controller {
         cargarCategorias();
     }
     
+    // Método privado que obtiene todas las categorías de producto desde la base de datos
+    // y las añade al comboBox de la interfaz gráfica.
     private void cargarCategorias() {
-        
         try {
+            // Obtiene la lista completa de categorías.
             List<ProductCategory> categorias = productCategoryDAO.findAll();
-            for (ProductCategory elem : categorias) {
-                ventana.lamina.getComboCategorias().addItem(elem);
+            
+            // Recorre la lista y añade cada categoría al comboBox.
+            for (ProductCategory categoria : categorias) {
+                ventana.lamina.getComboCategorias().addItem(categoria);
             }
         } catch (DAOException e) {
+            // Si ocurre un error al cargar las categorías, se muestra un mensaje al usuario.
             JOptionPane.showMessageDialog(ventana, "Error al cargar categorías");
         }
     }
     
+    // Método de negocio que se encarga de aplicar un descuento a todos los productos
+    // pertenecientes a la categoría seleccionada por el usuario.
     public void aplicarDescuentoCategoria() {
 
         //La categoría seleccionada, la guardamos en la variable categoría de tipo ProductCategory.
@@ -78,8 +92,10 @@ public class Ejer5Controller {
             // Y va a devolver el nº de filas como productos hayan sido modificados mostrados en ventana al usuario.
             int filas = productDAO.aplicarDescuentoCategoria(categoria.getCategoryId(), porcentaje);
             
+            // Muestra un mensaje indicando cuántos productos han sido actualizados.
             JOptionPane.showMessageDialog(ventana, "Descuento aplicado correctamente a " + filas + " productos");
         } catch (DAOException e) {
+            // Si ocurre un error al aplicar el descuento, se informa al usuario.
             JOptionPane.showMessageDialog(ventana, "Error al aplicar descuento a los productos de la categoría seleccionada");
         }
     }
